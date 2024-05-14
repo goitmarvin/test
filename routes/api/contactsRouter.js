@@ -1,6 +1,6 @@
 import express from "express";
 // prettier-ignore
-import {listContacts, getContactById, removeContact, addContact, updateContactById} from "../../models/contacts.js";
+import {listContacts, getContactById, removeContact, addContact, updateContact} from "../../models/contacts.js";
 import { contactValidation } from "../../validations/validation.js";
 import { httpError } from "../../helpers/httpError.js";
 
@@ -71,7 +71,7 @@ router.put("/:contactId", async (req, res, next) => {
     }
 
     const { contactId } = req.params;
-    const result = await updateContactById(contactId, req.body);
+    const result = await updateContact(contactId, req.body);
 
     if (!result) {
       throw httpError(404);

@@ -41,7 +41,7 @@ const addContact = async ({ name, email, phone }) => {
   return newContact;
 };
 
-const updateContactById = async (id, { name, email, phone }) => {
+const updateContact = async (id, { name, email, phone }) => {
   const contacts = await listContacts();
   const index = contacts.findIndex((item) => item.id === id);
 
@@ -61,4 +61,4 @@ const updateContactById = async (id, { name, email, phone }) => {
 };
 
 // prettier-ignore
-export { listContacts, getContactById, removeContact, addContact, updateContactById };
+export { listContacts, getContactById, removeContact, addContact, updateContact };
