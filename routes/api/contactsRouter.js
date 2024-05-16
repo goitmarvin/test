@@ -6,7 +6,7 @@ import { httpError } from "../../helpers/httpError.js";
 
 const router = express.Router();
 
-router.get("/", async (req, res, next) => {
+router.get("/", async (_req, res, next) => {
   try {
     const result = await listContacts();
     res.json(result);
