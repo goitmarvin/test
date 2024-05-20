@@ -1,35 +1,15 @@
 import express from "express";
-import { Contact } from "../../models/contacts.js";
-import { contactValidation } from "../../validations/validation.js";
-import { httpError } from "../../helpers/httpError.js";
+import { ctrlWrapper } from "../../helpers/ctrlWrapper.js";
+// prettier-ignore
+import { addContact, deleteContactById, getAllContacts, getContactById, updateContactById } from "../../controllers/contactsController.js";
 
 const router = express.Router();
 
 /* GET: // http://localhost:3000/api/contacts */
-router.get("/", async (_req, res, next) => {
-  try {
-    const result = await Contact.find({});
-    res.json(result);
-  } catch (error) {
-    next(error);
-  }
-});
+router.get("/", ctrlWrapper(getAllContacts));
 
 /* GET: // http://localhost:3000/api/contacts/:contactId */
-router.get("/:contactId", async (req, res, next) => {
-  try {
-    const { contactId } = req.params;
-    const result = await Contact.findById(contactId);
-
-    if (!result) {
-      throw httpError(404, "Contact ID Not Found");
-    }
-
-    res.json(result);
-  } catch (error) {
-    next(error);
-  }
-});
+router.get("/:contactId", ctrlWrapper(getContactById));
 
 /* POST: // http://localhost:3000/api/contacts/ 
 {
@@ -38,40 +18,10 @@ router.get("/:contactId", async (req, res, next) => {
     "phone": "(639) 840-6611"
 } 
 */
-router.post("/", async (req, res, next) => {
-  try {
-    // Preventing lack of necessary data
-    const { error } = contactValidation.validate(req.body);
-
-    if (error) {
-      throw httpError(400, "missing required name field");
-    }
-
-    const result = await Contact.create(req.body);
-
-    res.status(201).json(result);
-  } catch (error) {
-    next(error);
-  }
-});
+router.post("/", ctrlWrapper(addContact));
 
 /* DELETE: // http://localhost:3000/api/contacts/:contactId */
-router.delete("/:contactId", async (req, res, next) => {
-  try {
-    const { contactId } = req.params;
-    const result = await Contact.findByIdAndDelete(contactId);
-
-    if (!result) {
-      throw httpError(404);
-    }
-
-    res.json({
-      message: "Contact deleted",
-    });
-  } catch (error) {
-    next(error);
-  }
-});
+router.delete("/:contactId", ctrlWrapper(deleteContactById));
 
 /* PUT: // http://localhost:3000/api/contacts/:contactId 
 {
@@ -80,27 +30,6 @@ router.delete("/:contactId", async (req, res, next) => {
     "phone": "(639) 777-8819"
 } 
 */
-router.put("/:contactId", async (req, res, next) => {
-  try {
-    // Preventing lack of necessary data
-    const { error } = contactValidation.validate(req.body);
-    if (error) {
-      throw httpError(400, "missing fields");
-    }
-
-    const { contactId } = req.params;
-    const result = await Contact.findByIdAndUpdate(contactId, req.body, {
-      new: true,
-    });
-
-    if (!result) {
-      throw httpError(404);
-    }
-
-    res.json(result);
-  } catch (error) {
-    next(error);
-  }
-});
+router.put("/:contactId", ctrlWrapper(updateContactById));
 
 export { router };
