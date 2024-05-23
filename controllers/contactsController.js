@@ -1,10 +1,10 @@
-import { Contact } from "../models/contacts.js";
+import { Contact } from "../models/contactsModel.js";
 // prettier-ignore
 import { contactValidation, favoriteValidation } from "../validations/validation.js";
 import { httpError } from "../helpers/httpError.js";
 
 const getAllContacts = async (_req, res) => {
-  const result = await Contact.find({});
+  const result = await Contact.find();
   res.json(result);
 };
 
