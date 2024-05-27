@@ -24,7 +24,7 @@ const addContact = async (req, res) => {
   const { error } = contactValidation.validate(req.body);
 
   if (error) {
-    throw httpError(400, "missing required name field");
+    throw httpError(400, "missing required fields");
   }
 
   const result = await Contact.create(req.body);
