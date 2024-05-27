@@ -8,7 +8,6 @@ import { httpError } from "../helpers/httpError.js";
 const { SECRET_KEY } = process.env;
 
 const signupUser = async (req, res) => {
-  // Registration Request
   const { email, password } = req.body;
 
   //  Registration validation error
@@ -25,7 +24,6 @@ const signupUser = async (req, res) => {
 
   const hashPassword = await bcrypt.hash(password, 10);
 
-  // Registration Request
   const newUser = await User.create({ email, password: hashPassword });
 
   // Registration success response
@@ -38,7 +36,6 @@ const signupUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-  // Login Request
   const { email, password } = req.body;
 
   //  Login validation error
