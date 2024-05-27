@@ -28,4 +28,9 @@ const signupValidation = Joi.object({
   }),
 });
 
-export { contactValidation, favoriteValidation, signupValidation };
+const subscriptionValidation = Joi.object({
+  subscription: Joi.string().valid("starter", "pro", "business"),
+});
+
+// prettier-ignore
+export { contactValidation, favoriteValidation, signupValidation, subscriptionValidation };
