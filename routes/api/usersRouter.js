@@ -36,6 +36,10 @@ router.get("/current", authenticateToken, ctrlWrapper(getCurrentUsers));
 */
 router.patch("/", authenticateToken, ctrlWrapper(updateUserSubscription));
 
+/* PATCH: // http://localhost:3000/api/users/avatars
+    form-data
+    avatar,file : image
+*/
 // prettier-ignore
 router.patch("/avatars", authenticateToken, upload.single("avatar"), ctrlWrapper(updateAvatar));
 
