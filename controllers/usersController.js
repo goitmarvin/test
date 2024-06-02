@@ -1,6 +1,9 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
+import Jimp from "jimp";
+import path from "path";
+import fs from "fs/promises";
 import { User } from "../models/usersModel.js";
 // prettier-ignore
 import { signupValidation, subscriptionValidation } from "../validations/validation.js";
@@ -109,5 +112,28 @@ const updateUserSubscription = async (req, res) => {
   });
 };
 
+const updateAvatar = async (req, res) => {
+  const { _id } = req.user;
+  const { path: oldPath, originalname } = req.file;
+
+  await Jimp.read(oldPath).then((image) =>
+    // image.resize(250, 250).write(oldPath)
+    image.cover(250, 250).write(oldPath)
+  );
+
+  // example we will upload marvin.png, using split(".") will turn it to ["marvin", "png"]
+  // using reverse() -> ["png", "marvin"]
+  // destructuring to get the first element [extension]
+  const [extension] = originalname.split(".").reverse();
+  const filename = `${_id}.${extension}`;
+
+  const newPath = path.join("public", "avatars", filename);
+  await fs.rename(oldPath, newPath);
+
+  const avatarURL = path.join("avatars", filename);
+  await User.findByIdAndUpdate(_id, { avatarURL });
+  res.status(200).json({ avatarURL });
+};
+
 // prettier-ignore
-export { signupUser, loginUser, logoutUser, getCurrentUsers, updateUserSubscription };
+export { signupUser, loginUser, logoutUser, getCurrentUsers, updateUserSubscription, updateAvatar};
