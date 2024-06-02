@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import gravatar from "gravatar";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 import Jimp from "jimp";
@@ -28,13 +29,21 @@ const signupUser = async (req, res) => {
 
   const hashPassword = await bcrypt.hash(password, 10);
 
-  const newUser = await User.create({ email, password: hashPassword });
+  // Create a link to the user's avatar with gravatar
+  const avatarURL = gravatar.url(email, { protocol: "http" });
+
+  const newUser = await User.create({
+    email,
+    password: hashPassword,
+    avatarURL,
+  });
 
   // Registration success response
   res.status(201).json({
     user: {
       email: newUser.email,
       subscription: newUser.subscription,
+      avatarURL: newUser.avatarURL,
     },
   });
 };
