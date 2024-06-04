@@ -136,7 +136,9 @@ const updateAvatar = async (req, res) => {
   const newPath = path.join("public", "avatars", filename);
   await fs.rename(oldPath, newPath);
 
-  const avatarURL = path.join("/avatars", filename);
+  let avatarURL = path.join("/avatars", filename);
+  avatarURL = avatarURL.replace(/\\/g, "/");
+
   await User.findByIdAndUpdate(_id, { avatarURL });
   res.status(200).json({ avatarURL });
 };
