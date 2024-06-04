@@ -130,11 +130,8 @@ const updateAvatar = async (req, res) => {
     image.cover(250, 250).write(oldPath)
   );
 
-  // example we will upload marvin.png, using split(".") will turn it to ["marvin", "png"]
-  // using reverse() -> ["png", "marvin"]
-  // destructuring to get the first element [extension]
-  const [extension] = originalname.split(".").reverse();
-  const filename = `${_id}.${extension}`;
+  const extension = path.extname(originalname);
+  const filename = `${_id}${extension}`;
 
   const newPath = path.join("public", "avatars", filename);
   await fs.rename(oldPath, newPath);
