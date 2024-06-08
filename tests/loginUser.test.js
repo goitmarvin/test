@@ -15,7 +15,7 @@ describe("Test @POST /api/users/login", () => {
   const mockUser = {
     _id: mockUserId,
     email: signInData.email,
-    password: bcrypt.hashSync(signInData.password, 10),
+    password: bcrypt.hash(signInData.password, 10),
     subscription: "starter",
     token: "mockToken",
   };
