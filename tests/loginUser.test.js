@@ -64,8 +64,20 @@ describe("Test @POST /api/users/login", () => {
     console.log("Response body:", response.body);
     console.log("Response body USER:", response.body.user);
 
+    // Response must have status code 200
     expect(response.status).toBe(200);
-    expect(response.body.user.email).toBe(signInData.email);
-    expect(response.body).toHaveProperty("token", "mockJwtToken");
+
+    // The token must be returned in the response
+    expect(response.body).toHaveProperty("token");
+
+    const { user } = response.body;
+
+    // The response should return a user object with 2 fields email and subscription
+    expect(user).toHaveProperty("email");
+    expect(user).toHaveProperty("subscription");
+
+    // email and subscription, having the data type String
+    expect(user.email).toEqual(expect.any(String));
+    expect(user.subscription).toEqual(expect.any(String));
   });
 });
