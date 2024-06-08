@@ -59,7 +59,7 @@ describe("Test @POST /api/users/login", () => {
       .post("/api/users/login")
       .send(signInData);
 
-    console.log(signInData, signInData.email, signInData.password);
+    console.log("Login Data:", signInData);
     console.log("Response status code:", response.status);
     console.log("Response body:", response.body);
     console.log("Response body USER:", response.body.user);
