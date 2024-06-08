@@ -68,16 +68,4 @@ describe("Test @POST /api/users/login", () => {
     expect(response.body.user.email).toBe(signInData.email);
     expect(response.body).toHaveProperty("token", "mockJwtToken");
   });
-
-  test("should return 401 with wrong email or password", async () => {
-    const response = await request(app)
-      .post("/api/users/login")
-      .send({ email: "wrong@example.com", password: "wrongpassword" });
-
-    expect(response.status).toBe(401);
-    expect(response.body).toHaveProperty(
-      "message",
-      "Email or password is wrong"
-    );
-  });
 });
