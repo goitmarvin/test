@@ -17,7 +17,6 @@ describe("Test @POST /api/users/login", () => {
     email: signInData.email,
     password: bcrypt.hash(signInData.password, 10),
     subscription: "starter",
-    token: "mockToken",
   };
 
   beforeAll(() => {
