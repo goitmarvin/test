@@ -54,7 +54,7 @@ describe("Test @POST /api/users/login", () => {
     jest.restoreAllMocks();
   });
 
-  test("test signin with correctData", async () => {
+  test("Test login with correct data.", async () => {
     const response = await request(app)
       .post("/api/users/login")
       .send(signInData);
