@@ -4,7 +4,10 @@ import "dotenv/config";
 const { EMAIL_FROM, EMAIL_PASSWORD } = process.env;
 
 const nodemailerConfig = {
-  service: "gmail",
+  service: "Gmail",
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
   auth: {
     user: EMAIL_FROM,
     pass: EMAIL_PASSWORD,
@@ -13,9 +16,9 @@ const nodemailerConfig = {
 
 const transport = nodemailer.createTransport(nodemailerConfig);
 
-const sendEmail = (data) => {
+const sendEmail = async (data) => {
   const email = { ...data, from: EMAIL_FROM };
-  return transport.sendMail(email);
+  await transport.sendMail(email);
 };
 
 export { sendEmail };

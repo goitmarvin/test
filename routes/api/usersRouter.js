@@ -43,15 +43,14 @@ router.patch("/", authenticateToken, ctrlWrapper(updateUserSubscription));
 // prettier-ignore
 router.patch("/avatars", authenticateToken, upload.single("avatar"), ctrlWrapper(updateAvatar));
 
-/* GET: // http://localhost:3000/api/users/verify:verificationToken */
-// prettier-ignore
-router.get("/verify:verificationToken",authenticateToken, ctrlWrapper(verifyEmail));
+/* GET: // http://localhost:3000/api/users/verify/:verificationToken */
+router.get("/verify/:verificationToken", ctrlWrapper(verifyEmail));
 
 /* POST: // http://localhost:3000/api/users/verify 
 {
   "email": "example@example.com",
 }
 */
-router.post("/verify", authenticateToken, ctrlWrapper(resendVerifyEmail));
+router.post("/verify", ctrlWrapper(resendVerifyEmail));
 
 export { router };
